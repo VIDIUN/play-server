@@ -5,12 +5,12 @@ var dns = require('dns');
 var util = require('util');
 var http = require('http');
 var colors = require('colors');
-var kalturaAdServer = require('kaltura-ad-server');
+var vidiunAdServer = require('vidiun-ad-server');
 
 var id3Reader = require('../bin/TsId3Reader.node');
 
-var kaltura = {
-	client: require('../lib/client/KalturaClient')
+var vidiun = {
+	client: require('../lib/client/VidiunClient')
 };
 
 
@@ -64,7 +64,7 @@ function printHelp() {
 	console.log('Usage: ' + process.argv[0] + ' ' + process.argv[1] + ' partner-id admin-secret entry-id');
 	console.log('Options:');
 	console.log('\t -h / --help - This help');
-	console.log('\t -s / --server - Kaltura API hostname');
+	console.log('\t -s / --server - Vidiun API hostname');
 
 	process.exit(1);
 }
@@ -103,19 +103,19 @@ function parseCommandLineOptions() {
 
 		if (option == '-s' || option == '--server') {
 			if (!argv.length) {
-				console.error('Please specify Kaltura API hostname');
+				console.error('Please specify Vidiun API hostname');
 				printHelp();
 			}
 
 			serverHost = argv.shift();
-			console.log('Validating Kaltura API hostname [' + serverHost + ']');
+			console.log('Validating Vidiun API hostname [' + serverHost + ']');
 			canStart = false;
 			dns.lookup(serverHost, function(err, address, family) {
 				if (err) {
-					console.error('Invalid Kaltura API hostname [' + serverHost + ']: ' + err);
+					console.error('Invalid Vidiun API hostname [' + serverHost + ']: ' + err);
 					printHelp();
 				} else {
-					console.log('Kaltura API hostname [' + serverHost + '] is valid');
+					console.log('Vidiun API hostname [' + serverHost + '] is valid');
 					canStart = true;
 					test();
 				}
@@ -158,7 +158,7 @@ function getUserInputs(callback) {
 
 	if (!serverHost) {
 		var defaultServerHost = os.hostname();
-		var question = 'Please specify Kaltura API hostname or leave empty to use "' + defaultServerHost + '"';
+		var question = 'Please specify Vidiun API hostname or leave empty to use "' + defaultServerHost + '"';
 		ask(question, function(data) {
 			if (data === '') {
 				serverHost = defaultServerHost;
@@ -170,7 +170,7 @@ function getUserInputs(callback) {
 	}
 }
 
-var KalturaClientLogger = {
+var VidiunClientLogger = {
 	log: function(str) {
 		console.log(str);
 	}
@@ -178,23 +178,23 @@ var KalturaClientLogger = {
 
 function initClient(callback) {
 	console.log('Initializing client');
-	var clientConfig = new kaltura.client.KalturaConfiguration(partnerId);
+	var clientConfig = new vidiun.client.VidiunConfiguration(partnerId);
 
 	clientConfig.serviceUrl = 'http://' + serverHost;
 	clientConfig.clientTag = 'play-server-test-' + os.hostname();
-	clientConfig.setLogger(KalturaClientLogger);
+	clientConfig.setLogger(VidiunClientLogger);
 
-	var type = kaltura.client.enums.KalturaSessionType.ADMIN;
-	var client = new kaltura.client.KalturaClient(clientConfig);
+	var type = vidiun.client.enums.VidiunSessionType.ADMIN;
+	var client = new vidiun.client.VidiunClient(clientConfig);
 	
 	if(typeof callback === 'function'){
-    	client.session.start(function(ks) {
-    		client.setKs(ks);
+    	client.session.start(function(vs) {
+    		client.setVs(vs);
     		callback(client);
     	}, adminSecret, 'test', type, partnerId, 86400, 'disableentitlement');
 	}
 	else{
-		client.setKs(callback);
+		client.setVs(callback);
 		return client;
 	}
 }
@@ -208,7 +208,7 @@ function handlePlayManifest(client, manifestUrl, manifestContent) {
 		var currentLine = split[i].trim();
 
 		if (currentLine.length && currentLine[0] != '#') {
-			var playerClient = initClient(client.getKs());
+			var playerClient = initClient(client.getVs());
 			var renditionUrl = url.resolve(manifestUrl, currentLine);
 			new Player(playerClient, renditionUrl);
 		}
@@ -224,7 +224,7 @@ function handleAdminPlayManifest(client, manifestUrl, manifestContent) {
 		var currentLine = split[i].trim();
 
 		if (currentLine.length && currentLine[0] != '#') {
-			var playerClient = initClient(client.getKs());
+			var playerClient = initClient(client.getVs());
 			var renditionUrl = url.resolve(manifestUrl, currentLine);
 			new AdminPlayer(playerClient, renditionUrl);
 			break;
@@ -237,7 +237,7 @@ function getUrl(httpUrl, callback) {
 		console.log('Request [' + httpUrl + '] response: ' + response.statusCode);
 		console.log('Request [' + httpUrl + '] response headers: ' + util.inspect(response.headers));
 		
-		if(response.headers['x-kaltura']){
+		if(response.headers['x-vidiun']){
 			process.exit(0);
 		}
 		
@@ -268,7 +268,7 @@ function getUrl(httpUrl, callback) {
 }
 
 function handleEntry(client, entry) {
-	if (entry.objectType && entry.objectType == 'KalturaAPIException') {
+	if (entry.objectType && entry.objectType == 'VidiunAPIException') {
 		console.error('liveStream.get: ' + entry.message);
 		process.exit(1);
 	}
@@ -417,7 +417,7 @@ Player.prototype = {
 				if(id3tag.PTS && id3tag.TEXT && id3tag.TEXT.TEXT){
 					var cuePoint = JSON.parse(id3tag.TEXT.TEXT);
 					cuePoint.pts = id3tag.PTS;
-					if(cuePoint.objectType && cuePoint.objectType == 'KalturaSyncPoint'){
+					if(cuePoint.objectType && cuePoint.objectType == 'VidiunSyncPoint'){
 						this.handleSyncPoint(cuePoint, segment);
 					}
 				}
@@ -633,7 +633,7 @@ AdminPlayer.prototype.cuePointsEnabled = function(latency){
 AdminPlayer.prototype.enableCuePoints = function(duration){
 	var This = this;
 	this.client.liveStream.createPeriodicSyncPoints(function(err){
-		if (err && err.objectType && err.objectType == 'KalturaAPIException') {
+		if (err && err.objectType && err.objectType == 'VidiunAPIException') {
 			console.error('liveStream.createPeriodicSyncPoints: ' + err.message);
 			return;
 		}
@@ -647,7 +647,7 @@ AdminPlayer.prototype.enableCuePoints = function(duration){
 };
 
 AdminPlayer.prototype.createTimeCuePoint = function(sourceUrl, startTime, endTime, callback){
-	var cuePoint = new kaltura.client.objects.KalturaAdCuePoint();
+	var cuePoint = new vidiun.client.objects.VidiunAdCuePoint();
 	cuePoint.sourceUrl = sourceUrl;
 	cuePoint.startTime = startTime;
 	cuePoint.endTime = endTime;
@@ -656,7 +656,7 @@ AdminPlayer.prototype.createTimeCuePoint = function(sourceUrl, startTime, endTim
 };
 
 AdminPlayer.prototype.createDurationCuePoint = function(sourceUrl, startTime, duration, callback){
-	var cuePoint = new kaltura.client.objects.KalturaAdCuePoint();
+	var cuePoint = new vidiun.client.objects.VidiunAdCuePoint();
 	cuePoint.sourceUrl = sourceUrl;
 	cuePoint.startTime = startTime;
 	cuePoint.duration = duration;
@@ -665,7 +665,7 @@ AdminPlayer.prototype.createDurationCuePoint = function(sourceUrl, startTime, du
 };
 
 AdminPlayer.prototype.createDateCuePoint = function(sourceUrl, date, duration, callback){
-	var cuePoint = new kaltura.client.objects.KalturaAdCuePoint();
+	var cuePoint = new vidiun.client.objects.VidiunAdCuePoint();
 	cuePoint.sourceUrl = sourceUrl;
 	cuePoint.triggeredAt = date;
 	cuePoint.duration = duration;
@@ -691,7 +691,7 @@ AdminPlayer.prototype.createDateCuePoint = function(sourceUrl, date, duration, c
 AdminPlayer.prototype.createCuePoint = function(cuePoint, callback){
 	cuePoint.entryId = entryId;
 	this.client.cuePoint.add(function(cuePoint){
-		if (cuePoint && cuePoint.objectType && cuePoint.objectType == 'KalturaAPIException') {
+		if (cuePoint && cuePoint.objectType && cuePoint.objectType == 'VidiunAPIException') {
 			console.error('cuePoint.add: ' + cuePoint.message);
 			return;
 		}
@@ -764,7 +764,7 @@ var options = {
 	privileges : null,
 	serviceUrl: 'http://' + serverHost
 };
-adServer = kalturaAdServer.create(options);
+adServer = vidiunAdServer.create(options);
 vast = adServer.getProvider('vast');
 
 vast.getOriginal				= vast.get;

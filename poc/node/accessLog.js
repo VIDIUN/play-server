@@ -4,8 +4,8 @@
 var fs = require('fs');
 var formatTime = require('./formatTime');
 
-const PRINTED_REQUEST_HEADERS = ['referrer', 'user-agent', 'x-kaltura-f5-https', 'host', 'x-forwarded-for', 'x-forwarded-server', 'x-forwarded-host'];
-const PRINTED_RESPONSE_HEADERS = ['content-range', 'cache-control', 'x-kaltura-session'];
+const PRINTED_REQUEST_HEADERS = ['referrer', 'user-agent', 'x-vidiun-f5-https', 'host', 'x-forwarded-for', 'x-forwarded-server', 'x-forwarded-host'];
+const PRINTED_RESPONSE_HEADERS = ['content-range', 'cache-control', 'x-vidiun-session'];
 const REQUEST_LOGGING_TIMEOUT = 30000;
 
 function quoteVar(val) {

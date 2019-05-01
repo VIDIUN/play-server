@@ -4,7 +4,7 @@
  * node TsCutter.js /tmp/testJsCutter.ts /web/content/shared/bin/ffmpeg-2.1-bin/ffmpeg-2.1.sh /web/content/shared/bin/ffmpeg-2.1-bin/ffprobe-2.1.sh 1085300 left /tmp/pre-1-4fd291d9968ec0fa2db44c52786295e0.ts /tmp/pre-2-cb11685b4a167e4a41d323871819a6df.ts /tmp/pre-3-5634dbf4fd82448ea3faf2b201820718.ts
  */
 
-var kalturaTsPreparer = require('../../../lib/media/KalturaTsPreparer');
+var vidiunTsPreparer = require('../../../lib/media/VidiunTsPreparer');
 var tsStitcher = require('../../../bin/Release/TsStitcher.node');
 var fs = require('fs');
 
@@ -55,7 +55,7 @@ const CHUNK_TYPE_PRE_AD = 	 1;
 const TS_PACKET_LENGTH = 188;
 const FILE_CHUNK_SIZE = 2500 * TS_PACKET_LENGTH;
 
-kalturaTsPreparer.cutTsFiles(ffmpegBin, ffprobeBin, cutOffset, leftPortion, inputFiles, function (error, data) {
+vidiunTsPreparer.cutTsFiles(ffmpegBin, ffprobeBin, cutOffset, leftPortion, inputFiles, function (error, data) {
 	var fd = fs.openSync(outputFile, 'w');
 	var outputLayout = tsStitcher.buildLayout(data.metadata, null, [], 0, 0, 0);
 	var outputState = {};

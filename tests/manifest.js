@@ -10,7 +10,7 @@ var canStart = true;
 
 
 function buildMasterUrl(entryid, manifestUrl) {
-	// 'http://dev-backend-desktop.dev.kaltura.com:808/manifest/master/entryId/' + entryid + '/name/master.m3u8?url=' + manifestUrl;
+	// 'http://dev-backend-desktop.dev.vidiun.com:808/manifest/master/entryId/' + entryid + '/name/master.m3u8?url=' + manifestUrl;
 
 	if(!playServerHost)
 		playServerHost = os.hostname();
@@ -24,10 +24,10 @@ function buildMasterUrl(entryid, manifestUrl) {
 
 function printHelp() {
 	var examples = {
-		'0_x1n7h66c' : 'http://kalsegsec-a.akamaihd.net/dc-0/m/pa-live-publish1/kLive/smil:0_x1n7h66c_all.smil/playlist.m3u8',
-		'0_wwsxfta8' : 'http://dev-hudson9.dev.kaltura.com:1935/kLive/smil:0_wwsxfta8_all.smil/playlist.m3u8',
-		'0_04b835a6' : 'http://urtmpkal-f.akamaihd.net/i/004b835a6_1@179492/master.m3u8',
-		'0_4mo1iw8g' : 'http://dev-hudson9.dev.kaltura.com:1935/kLive/smil:0_4mo1iw8g_all.smil/playlist.m3u8'
+		'0_x1n7h66c' : 'http://vidsegsec-a.akamaihd.net/dc-0/m/pa-live-publish1/vLive/smil:0_x1n7h66c_all.smil/playlist.m3u8',
+		'0_wwsxfta8' : 'http://dev-hudson9.dev.vidiun.com:1935/vLive/smil:0_wwsxfta8_all.smil/playlist.m3u8',
+		'0_04b835a6' : 'http://urtmpvid-f.akamaihd.net/i/004b835a6_1@179492/master.m3u8',
+		'0_4mo1iw8g' : 'http://dev-hudson9.dev.vidiun.com:1935/vLive/smil:0_4mo1iw8g_all.smil/playlist.m3u8'
 	};
 
 	console.log('Usage: ' + process.argv[0] + ' ' + process.argv[1] + ' [options] [master manifest url]');

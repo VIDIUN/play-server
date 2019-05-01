@@ -4,7 +4,7 @@
  * node TsPreparer.js localhost 11211 600 key /web/content/shared/bin/ffmpeg-2.1-bin/ffmpeg-2.1.sh /web/content/shared/bin/ffmpeg-2.1-bin/ffprobe-2.1.sh leftcut 1085300 /tmp/part1.ts /tmp/part2.ts /tmp/part3.ts
  */
 
-var tsPreparer = require('../../../lib/media/KalturaTsPreparer');
+var tsPreparer = require('../../../lib/media/VidiunTsPreparer');
 var memjs = require('memjs');
 
 if (typeof String.prototype.startsWith != 'function') {

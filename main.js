@@ -1,13 +1,13 @@
 
 var cluster = require('cluster');
-var kaltura = require('./lib/KalturaServer');
+var vidiun = require('./lib/VidiunServer');
 
-var KalturaProcess = null;
+var VidiunProcess = null;
 
 if (cluster.isMaster) {
-	KalturaProcess = new kaltura.KalturaMainProcess();
+	VidiunProcess = new vidiun.VidiunMainProcess();
 }
 else{
-	KalturaProcess = new kaltura.KalturaChildProcess();
+	VidiunProcess = new vidiun.VidiunChildProcess();
 }
 

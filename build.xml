@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="KalturaPlayServer" default="install">
+<project name="VidiunPlayServer" default="install">
 
 	<property name="bin.dir" value="${basedir}/bin" />
 	<property name="native.dir" value="${basedir}/native" />
@@ -30,7 +30,7 @@
 			<arg value="clone" />
 			<arg value="-b" />
             <arg value="${version}" />		
-			<arg value="https://github.com/kaltura/vast-client-js" />
+			<arg value="https://github.com/vidiun/vast-client-js" />
 		</exec>
 		<copy todir="${basedir}/vendor/vast-client-js" overwrite="true" failonerror="true">
 			<fileset dir="${basedir}/vast-client-js/src"/>
@@ -76,7 +76,7 @@
 
 	
 	<target name="play-server-service" depends="copy-template-files">
-		<symlink link="/etc/init.d/kaltura_play" resource="${bin.dir}/play-server.sh" failonerror="true" overwrite="true"/>
+		<symlink link="/etc/init.d/vidiun_play" resource="${bin.dir}/play-server.sh" failonerror="true" overwrite="true"/>
 		<chmod file="${bin.dir}/play-server.sh" perm="700"/>
 	</target>
 	

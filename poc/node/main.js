@@ -26,7 +26,7 @@ require('./vastParser');
 
 // parameters
 const LOCAL_SERVER_PORT = 1337;
-const SERVER_EXTERNAL_DOMAIN = 'adstitchdemo.kaltura.com';
+const SERVER_EXTERNAL_DOMAIN = 'adstitchdemo.vidiun.com';
 const SERVER_EXTERNAL_URL = SERVER_EXTERNAL_DOMAIN;
 const SERVER_EXTERNAL_HTTP_URL = 'http://' + SERVER_EXTERNAL_URL;
 const START_TRACKER_URL = 'http://localhost:' + LOCAL_SERVER_PORT;
@@ -483,16 +483,16 @@ function prepareAdsForEntry(adsToPrepare) {
 
 var adPoolUrls = [
 	//31 seconds - Blistex
-	'http://cdnapi.kaltura.com/p/437481/sp/43748100/playManifest/entryId/0_r0rsau9o/flavorId/0_mx13do2t/format/url/protocol/http/a.flv',
+	'http://cdnapi.vidiun.com/p/437481/sp/43748100/playManifest/entryId/0_r0rsau9o/flavorId/0_mx13do2t/format/url/protocol/http/a.flv',
 
 	//32 seconds - HomeAway.com
-	'http://cdnapi.kaltura.com/p/777122/sp/77712200/playManifest/entryId/0_vriq23ct/flavorId/0_g0vnoj5i/format/url/protocol/http/a.mp4',
+	'http://cdnapi.vidiun.com/p/777122/sp/77712200/playManifest/entryId/0_vriq23ct/flavorId/0_g0vnoj5i/format/url/protocol/http/a.mp4',
 
 	//47 seconds - iPhone 4 Gizmodo
-	//'http://cdnapi.kaltura.com/p/524241/sp/52424100/playManifest/entryId/0_mb7d3bcg/flavorId/0_xwolbf6p/format/url/protocol/http/a.mp4',
+	//'http://cdnapi.vidiun.com/p/524241/sp/52424100/playManifest/entryId/0_mb7d3bcg/flavorId/0_xwolbf6p/format/url/protocol/http/a.mp4',
 
 	//52 seconds - Google search
-	//'http://cdnapi.kaltura.com/p/437481/sp/43748100/playManifest/entryId/0_0i5ymzed/flavorId/0_3japm9zh/format/url/protocol/http/a.webm',
+	//'http://cdnapi.vidiun.com/p/437481/sp/43748100/playManifest/entryId/0_0i5ymzed/flavorId/0_3japm9zh/format/url/protocol/http/a.webm',
 ];
 
 function processIsWatched(params, res) {
@@ -562,9 +562,9 @@ function allocateAdsForUser(res, entryId, uid, adPositions, allocatedAds, adsToP
 
 		//ad IP to vast url request
 		if(ip == '91.142.215.121')
-			vastUrl = 'http://search.spotxchange.com/vast/2.0/96156?content_page_url=http://kalturatest.com&VPI=MP4&ip_addr=91.142.215.121';
+			vastUrl = 'http://search.spotxchange.com/vast/2.0/96156?content_page_url=http://vidiuntest.com&VPI=MP4&ip_addr=91.142.215.121';
 		else
-			vastUrl = 'http://search.spotxchange.com/vast/2.0/96157?content_page_url=http://kalturatest.com&VPI=MP4&ip_addr=46.20.235.45';
+			vastUrl = 'http://search.spotxchange.com/vast/2.0/96157?content_page_url=http://vidiuntest.com&VPI=MP4&ip_addr=46.20.235.45';
 		
 		// get via VAST	
 		vastParser.getAdMediaFiles(res, vastUrl, adPositions[i].adSlotDuration*1000, function(adUrl, trackingInfo){
@@ -1331,7 +1331,7 @@ var shortUrlCounter = 1;
 
 function handleHttpRequest(req, res) {
 	var sessionId = Math.floor(Math.random() * 0x7fffffff);
-	res.setHeader('X-Kaltura-Session', sessionId);
+	res.setHeader('X-Vidiun-Session', sessionId);
 	res.log = function (msg) {
 		console.log(formatTime.getDateTime() + ' [' + sessionId + '] ' + msg);
 	};
@@ -1342,7 +1342,7 @@ function handleHttpRequest(req, res) {
 	accessLog(req, res);
 	
 	var protocol = 'http://';
-	if (req.headers['x-kaltura-f5-https'] == 'ON') {
+	if (req.headers['x-vidiun-f5-https'] == 'ON') {
 		protocol = 'https://';
 	}
 

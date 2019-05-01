@@ -2,7 +2,7 @@
 if [ $# -eq 1 ]; then
         FFMPEG_PATH=$1
 else
-        FFMPEG_PATH=/opt/kaltura/play-server/bin/ffmpeg
+        FFMPEG_PATH=/opt/vidiun/play-server/bin/ffmpeg
 fi
 
 _FULLPATH_=$(readlink -f $FFMPEG_PATH)

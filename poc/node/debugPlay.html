@@ -5,8 +5,8 @@
 body { padding: 15px; }
 </style>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
-<!--<script src="//www.kaltura.com/html5/html5lib/v2.24.1/mwEmbedLoader.php"></script> -->
-<script src="//kgit.html5video.org/pulls/1416/mwEmbedLoader.php"></script>
+<!--<script src="//www.vidiun.com/html5/html5lib/v2.24.1/mwEmbedLoader.php"></script> -->
+<script src="//vgit.html5video.org/pulls/1416/mwEmbedLoader.php"></script>
 <script>
 
 const PRIO_NOTICE = 1;
@@ -16,14 +16,14 @@ const PRIO_HIGH = 4;
 
 function embedPlayer(srcUrl, targetId){
 	mw.setConfig("LeadWithHLSOnFlash",true);
-	mw.setConfig('Kaltura.LeadWithHTML5', true);
+	mw.setConfig('Vidiun.LeadWithHTML5', true);
 	mw.setConfig('EmbedPlayer.ReplaceSources', [
 		{
 			'type' : 'application/vnd.apple.mpegurl',
 			'src' : srcUrl
 		}
 	]);
-	kWidget.embed({
+	vWidget.embed({
 		"targetId": targetId,
 		"wid": "_243342",
 		"uiconf_id": 25675992,

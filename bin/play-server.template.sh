@@ -6,20 +6,20 @@
 
 
 #
-# play-server              This shell script takes care of starting and stopping a Kaltura play-server Service
+# play-server              This shell script takes care of starting and stopping a Vidiun play-server Service
 #
 # chkconfig: 2345 13 87
-# description: Kaltura play-server
+# description: Vidiun play-server
 
 ### BEGIN INIT INFO
-# Provides:          kaltura-play-server
+# Provides:          vidiun-play-server
 # Required-Start:    $local_fs $remote_fs $network
 # Required-Stop:     $local_fs $remote_fs $network
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # X-Interactive:     true
-# Short-Description: Start/stop Kaltura play-server
-# Description:       Control the Kaltura play-server.
+# Short-Description: Start/stop Vidiun play-server
+# Description:       Control the Vidiun play-server.
 ### END INIT INFO
  
 NAME="play_server"

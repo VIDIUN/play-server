@@ -1,5 +1,5 @@
 {
-  "name": "kaltura-play-server",
+  "name": "vidiun-play-server",
   "version": "0.0.1",
   "dependencies": {
     "binstring": ">=0.2.1",

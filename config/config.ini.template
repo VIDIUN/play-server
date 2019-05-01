@@ -20,9 +20,9 @@ segmentsHistoryLimit = 12
 [logger]
 debugEnabled = 1
 logDir = @LOG_DIR@
-accessLogName = kaltura_play_access.log
-logName = kaltura_play.log
-errorLogName = kaltura_play_error.log
+accessLogName = vidiun_play_access.log
+logName = vidiun_play.log
+errorLogName = vidiun_play_error.log
 largeDataDebugEnabled = 0
 
 [cache]

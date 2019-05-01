@@ -1,1 +1,1 @@
-Kaltura node.js API Client Library.
+Vidiun node.js API Client Library.

@@ -11,7 +11,7 @@ sudo service memcached restart
 
 # ffmpeg
 cd /tmp/
-wget lbd.kaltura.com/ffmpeg-2.1.tar.gz
+wget lbd.vidiun.com/ffmpeg-2.1.tar.gz
 sudo mkdir -p /web/content/shared/bin/ffmpeg-2.1-bin/
 cd /web/content/shared/bin/ffmpeg-2.1-bin/
 sudo tar -zxvf /tmp/ffmpeg-2.1.tar.gz
@@ -35,14 +35,14 @@ sudo ln -s /usr/bin/nodejs /usr/bin/node
 
 # ad-stitching repos
 cd /opt
-sudo mkdir kaltura
-sudo chown ubuntu:ubuntu kaltura
-cd /opt/kaltura
-git clone https://github.com/kaltura/vast-client-js
-git clone https://github.com/kaltura/play-server
-cd /opt/kaltura/vast-client-js/
+sudo mkdir vidiun
+sudo chown ubuntu:ubuntu vidiun
+cd /opt/vidiun
+git clone https://github.com/vidiun/vast-client-js
+git clone https://github.com/vidiun/play-server
+cd /opt/vidiun/vast-client-js/
 git checkout v1.1
-cd /opt/kaltura/play-server/
+cd /opt/vidiun/play-server/
 git checkout v1.1
 
 # node modules
@@ -55,27 +55,27 @@ npm install coffee-script
 npm install memjs
 
 # id3lib
-cd /opt/kaltura/play-server/native/vendor/id3lib-3.8.3/
+cd /opt/vidiun/play-server/native/vendor/id3lib-3.8.3/
 ./configure
 make
 sudo make install
 
 # native node addons
-cd /opt/kaltura/play-server/native/node_addons/TsPreparer/
+cd /opt/vidiun/play-server/native/node_addons/TsPreparer/
 node-gyp configure
 node-gyp build
-cd /opt/kaltura/play-server/native/node_addons/TsStitcher/
+cd /opt/vidiun/play-server/native/node_addons/TsStitcher/
 node-gyp configure
 node-gyp build
-cd /opt/kaltura/play-server/native/node_addons/TsId3Reader/
+cd /opt/vidiun/play-server/native/node_addons/TsId3Reader/
 node-gyp configure
 node-gyp build
 
 # config params
-vi /opt/kaltura/play-server/node_modules/memcached/lib/utils.js		# comment the else if of: The key should not contain any whitespace or new lines
-vi /opt/kaltura/play-server/poc/node/main.js				# fix the server host & port
-vi /opt/kaltura/play-server/poc/node/insertAd.html			# update the stream URLs
+vi /opt/vidiun/play-server/node_modules/memcached/lib/utils.js		# comment the else if of: The key should not contain any whitespace or new lines
+vi /opt/vidiun/play-server/poc/node/main.js				# fix the server host & port
+vi /opt/vidiun/play-server/poc/node/insertAd.html			# update the stream URLs
 
 # execute
-cd /opt/kaltura/play-server/poc/node/
+cd /opt/vidiun/play-server/poc/node/
 sudo node main.js

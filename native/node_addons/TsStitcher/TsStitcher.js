@@ -19,7 +19,7 @@ const CHUNK_TYPE_POST_AD = 	 2;
 const CHUNK_TYPE_AD = 		 3;
 const CHUNK_TYPE_BLACK = 	 4;
 
-// NOTE: the following constants must match KalturaTsPreparer.js
+// NOTE: the following constants must match VidiunTsPreparer.js
 const TS_PACKET_LENGTH = 188;
 const FILE_CHUNK_SIZE = 2500 * TS_PACKET_LENGTH;
 
